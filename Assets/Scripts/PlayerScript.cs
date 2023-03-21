@@ -10,6 +10,8 @@ public class PlayerScript : MonoBehaviour
     public float speed;
     public Text score;
 
+    public GameObject winTextObject;
+
     private int scoreValue = 0;
 
     // Start is called before the first frame update
@@ -17,6 +19,7 @@ public class PlayerScript : MonoBehaviour
     {
         rd2d = GetComponent<Rigidbody2D>();
         score.text = scoreValue.ToString();
+        winTextObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -26,7 +29,6 @@ public class PlayerScript : MonoBehaviour
         float vertMovement = Input.GetAxis("Vertical");
         
         rd2d.AddForce(new Vector2(hozMovement * speed, vertMovement * speed));
-    
 
     }
 
@@ -37,6 +39,10 @@ public class PlayerScript : MonoBehaviour
             scoreValue += 1;
             score.text = scoreValue.ToString();
             Destroy(collision.collider.gameObject);
+            if (scoreValue == 4)
+            {
+                winTextObject.SetActive(true);
+            }
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
